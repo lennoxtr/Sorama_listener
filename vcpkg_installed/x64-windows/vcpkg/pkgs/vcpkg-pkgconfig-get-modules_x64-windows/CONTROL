@@ -1,0 +1,6 @@
+Package: vcpkg-pkgconfig-get-modules
+Version: 2024-04-03
+Depends: pkgconf
+Architecture: x64-windows
+Multi-Arch: same
+Abi: eeb7b94d2ef45879b039d18b8e7ae98315c6dc309ba89e4f1d833825d5d14d33

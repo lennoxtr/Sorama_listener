@@ -1,0 +1,12 @@
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/lib/opus.lib
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/bin/opus.dll
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/include/opus/opus.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/include/opus/opus_defines.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/include/opus/opus_multistream.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/include/opus/opus_projection.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/include/opus/opus_types.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/lib/pkgconfig/opus.pc
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/lib/cmake/Opus/OpusTargets.cmake
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/lib/cmake/Opus/OpusTargets-debug.cmake
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/lib/cmake/Opus/OpusConfig.cmake
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/opus_x64-windows/debug/lib/cmake/Opus/OpusConfigVersion.cmake

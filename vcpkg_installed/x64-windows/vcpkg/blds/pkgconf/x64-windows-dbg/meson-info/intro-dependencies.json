@@ -1,0 +1,22 @@
+[
+  {
+    "name": "dep46022249628363759183187581930738953111",
+    "type": "internal",
+    "version": "2.5.1",
+    "compile_args": [],
+    "link_args": [],
+    "include_directories": [
+      "C:\\Users\\huykh\\source\\repos\\Test_sorama\\vcpkg_installed\\x64-windows\\vcpkg\\blds\\pkgconf\\src\\conf-2.5.1-5bc6f0da3f.clean\\.",
+      "C:\\Users\\huykh\\source\\repos\\Test_sorama\\vcpkg_installed\\x64-windows\\vcpkg\\blds\\pkgconf\\x64-windows-dbg\\."
+    ],
+    "sources": [],
+    "extra_files": [],
+    "dependencies": [],
+    "depends": [
+      "pkgconf@sha"
+    ],
+    "meson_variables": [
+      "dep_libpkgconf"
+    ]
+  }
+]

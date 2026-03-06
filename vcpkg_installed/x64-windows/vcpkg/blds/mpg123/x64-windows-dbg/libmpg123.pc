@@ -1,0 +1,12 @@
+prefix=C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/mpg123_x64-windows/debug
+exec_prefix=C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/mpg123_x64-windows/debug
+libdir=C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/mpg123_x64-windows/debug/lib
+includedir=C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/mpg123_x64-windows/debug/include
+
+Name: libmpg123
+Description: An optimised MPEG Audio decoder
+Requires: 
+Version: 1.32.9
+Libs: -L${libdir} -lmpg123 
+Libs.private: -lshlwapi -lshlwapi
+Cflags: -I${includedir} 

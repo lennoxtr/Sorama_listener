@@ -1,0 +1,17 @@
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/share/doc/portaudio/README.md
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/share/doc/portaudio/LICENSE.txt
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/lib/pkgconfig/portaudio-2.0.pc
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/include/portaudio.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/include/pa_win_ds.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/include/pa_win_waveformat.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/include/pa_win_wmme.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/include/pa_win_waveformat.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/include/pa_win_wasapi.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/include/pa_win_waveformat.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/include/pa_win_wdmks.h
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/lib/portaudio.lib
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/bin/portaudio.dll
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/lib/cmake/portaudio/portaudioTargets.cmake
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/lib/cmake/portaudio/portaudioTargets-release.cmake
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/lib/cmake/portaudio/portaudioConfig.cmake
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/lib/cmake/portaudio/portaudioConfigVersion.cmake

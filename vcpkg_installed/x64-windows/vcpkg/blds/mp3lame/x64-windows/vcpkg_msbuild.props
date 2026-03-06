@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <vcpkg_msbuild_props_imported>true</vcpkg_msbuild_props_imported>
+  </PropertyGroup>
+  <PropertyGroup>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <PlatformToolset>v145</PlatformToolset>
+    <!-- <Platform>x64</Platform> -->
+    <VcpkgApplocalDeps>false</VcpkgApplocalDeps>
+    <VcpkgManifestInstall>false</VcpkgManifestInstall>
+    <VcpkgManifestEnabled>false</VcpkgManifestEnabled>
+    <VcpkgEnabled>false</VcpkgEnabled>
+    <VcpkgTriplet>x64-windows</VcpkgTriplet>
+    <VcpkgInstalledDir>C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/</VcpkgInstalledDir>
+    <UseIntelMKL>No</UseIntelMKL>
+    <ImportProjectExtensionProps>false</ImportProjectExtensionProps>
+    <ForceImportAfterCppProps>vcpkg_msbuild.props</ForceImportAfterCppProps>
+    <ForceImportAfterCppTargets>vcpkg_msbuild.targets</ForceImportAfterCppTargets>
+  </PropertyGroup>
+  
+</Project>

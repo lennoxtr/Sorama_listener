@@ -1,0 +1,13 @@
+prefix=C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/libsndfile_x64-windows/debug
+exec_prefix=${prefix}
+libdir=C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/libsndfile_x64-windows/debug/lib
+includedir=C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/libsndfile_x64-windows/debug/include
+
+Name: sndfile
+Description: A library for reading and writing audio files
+Requires:
+Requires.private: flac ogg vorbis vorbisenc opus libmpg123
+Version: 1.2.2
+Libs: -L${libdir} -lsndfile
+Libs.private: -lmp3lame
+Cflags: -I${includedir}

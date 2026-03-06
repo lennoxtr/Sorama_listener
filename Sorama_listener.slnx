@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Test_sorama/Test_sorama.vcxproj" Id="e17fb965-f5e4-457d-9ccb-5fb3f8468b75" />
+</Solution>

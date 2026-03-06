@@ -1,0 +1,8 @@
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/blds/opus/x64-windows-dbg/CMakeFiles/opus.dir
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/blds/opus/x64-windows-dbg/CMakeFiles/package.dir
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/blds/opus/x64-windows-dbg/CMakeFiles/package_source.dir
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/blds/opus/x64-windows-dbg/CMakeFiles/edit_cache.dir
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/blds/opus/x64-windows-dbg/CMakeFiles/rebuild_cache.dir
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/blds/opus/x64-windows-dbg/CMakeFiles/list_install_components.dir
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/blds/opus/x64-windows-dbg/CMakeFiles/install.dir
+C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/blds/opus/x64-windows-dbg/CMakeFiles/install/local.dir

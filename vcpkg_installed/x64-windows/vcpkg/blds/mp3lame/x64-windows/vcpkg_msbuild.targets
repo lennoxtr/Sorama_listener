@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Condition="'$(vcpkg_msbuild_props_imported)' != 'true'" Project="vcpkg_msbuild.props" />
+  <PropertyGroup>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <PlatformToolset>v145</PlatformToolset>
+    <!-- <Platform>x64</Platform> -->
+    <VcpkgApplocalDeps>false</VcpkgApplocalDeps>
+    <VcpkgManifestInstall>false</VcpkgManifestInstall>
+    <VcpkgManifestEnabled>false</VcpkgManifestEnabled>
+    <VcpkgEnabled>false</VcpkgEnabled>
+    <VcpkgTriplet>x64-windows</VcpkgTriplet>
+    <VcpkgInstalledDir>C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/</VcpkgInstalledDir>
+    <UseIntelMKL>No</UseIntelMKL>
+    <ImportProjectExtensionProps>false</ImportProjectExtensionProps>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+        <!-- vcpkg -->
+        <RuntimeLibrary Condition="'dynamic|$(Configuration)' == 'static|Debug'">MultiThreadedDebug</RuntimeLibrary>
+        <RuntimeLibrary Condition="'dynamic|$(Configuration)' == 'static|Release'">MultiThreaded</RuntimeLibrary>
+        <RuntimeLibrary Condition="'dynamic|$(Configuration)' == 'dynamic|Debug'">MultiThreadedDebugDLL</RuntimeLibrary>
+        <RuntimeLibrary Condition="'dynamic|$(Configuration)' == 'dynamic|Release'">MultiThreadedDLL</RuntimeLibrary>
+        <AdditionalIncludeDirectories Condition="'$(Configuration)'=='Debug'"  >%(AdditionalIncludeDirectories);C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/mp3lame_x64-windows/include;C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/x64-windows/include</AdditionalIncludeDirectories>
+        <AdditionalIncludeDirectories Condition="'$(Configuration)'=='Release'">%(AdditionalIncludeDirectories);C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/mp3lame_x64-windows/include;C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/x64-windows/include</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Update="../../**/*.cpp;../../**/*.cxx">
+        <AdditionalOptions Condition="'$(Configuration)'=='Debug'"  >%(AdditionalOptions)   -nologo -DWIN32 -D_WINDOWS -utf-8 -GR -EHsc -MP  -MDd -Z7 -Ob0 -Od -RTC1     /WX-</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)'=='Release'">%(AdditionalOptions)   -nologo -DWIN32 -D_WINDOWS -utf-8 -GR -EHsc -MP  -MD -O2 -Oi -Gy -DNDEBUG -Z7     /WX-</AdditionalOptions>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup >
+    <ClCompile Update="../../**/*.c">
+        <AdditionalOptions Condition="'$(Configuration)'=='Debug'"  >%(AdditionalOptions)   -nologo -DWIN32 -D_WINDOWS -utf-8 -MP  -MDd -Z7 -Ob0 -Od -RTC1     /WX-</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)'=='Release'">%(AdditionalOptions)   -nologo -DWIN32 -D_WINDOWS -utf-8 -MP  -MD -O2 -Oi -Gy -DNDEBUG -Z7     /WX-</AdditionalOptions>
+    </ClCompile>
+  </ItemGroup>
+  <ItemDefinitionGroup>
+    <Link>
+        <!-- Required Libs -->
+        <AdditionalDependencies Condition="'$(Configuration)'=='Debug'"        >%(AdditionalDependencies)</AdditionalDependencies>
+        <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'"  >%(AdditionalLibraryDirectories);C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/mp3lame_x64-windows/debug/lib;C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/x64-windows/debug/lib</AdditionalLibraryDirectories>
+        <AdditionalDependencies Condition="'$(Configuration)'=='Release'"      >%(AdditionalDependencies)</AdditionalDependencies >
+        <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Release'">%(AdditionalLibraryDirectories);C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/mp3lame_x64-windows/lib;C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/x64-windows/lib</AdditionalLibraryDirectories>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='Debug|DynamicLibrary'"  >%(AdditionalOptions)  -machine:x64 -nologo    -debug -INCREMENTAL    /WX:NO</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='Release|DynamicLibrary'">%(AdditionalOptions)  -machine:x64 -nologo -DEBUG -INCREMENTAL:NO -OPT:REF -OPT:ICF      /WX:NO</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='Debug|Application'"  >%(AdditionalOptions)  -machine:x64 -nologo    -debug -INCREMENTAL    /WX:NO</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='Release|Application'">%(AdditionalOptions)  -machine:x64 -nologo -DEBUG -INCREMENTAL:NO -OPT:REF -OPT:ICF      /WX:NO</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='Debug|StaticLibrary'">%(AdditionalOptions) -machine:x64 -nologo</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='Release|StaticLibrary'">%(AdditionalOptions) -machine:x64 -nologo</AdditionalOptions>
+    </Link>
+    <Lib>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='Debug|StaticLibrary'">%(AdditionalOptions) -machine:x64 -nologo</AdditionalOptions>
+        <AdditionalOptions Condition="'$(Configuration)|$(ConfigurationType)'=='Release|StaticLibrary'">%(AdditionalOptions) -machine:x64 -nologo</AdditionalOptions>
+        <!-- Required to prevent linker errors on Visual Studio 2017 with static CRT -->
+        <TargetMachine Condition="'x64'=='x86'">MachineX86</TargetMachine>
+        <TargetMachine Condition="'x64'=='x64'">MachineX64</TargetMachine>
+        <TargetMachine Condition="'x64'=='arm'">MachineARM</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  
+</Project>

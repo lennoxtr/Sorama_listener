@@ -1,0 +1,26 @@
+# ninja log v7
+13	169	7934617907831435	CMakeFiles/portaudio.dir/src/common/pa_dither.c.obj	b550282ed1a6afaa
+59	179	7934617908282662	CMakeFiles/portaudio.dir/src/os/win/pa_win_hostapis.c.obj	fe6060622aeefde7
+3	184	7934617907726042	CMakeFiles/portaudio.dir/src/common/pa_allocation.c.obj	a1452b8ced2a70e0
+35	193	7934617908047238	CMakeFiles/portaudio.dir/src/common/pa_stream.c.obj	eeeb88b6e4b0854a
+8	202	7934617907781430	CMakeFiles/portaudio.dir/src/common/pa_cpuload.c.obj	3a442d7ce1197cde
+11	212	7934617907811445	CMakeFiles/portaudio.dir/src/common/pa_debugprint.c.obj	274b94adfb97b828
+6	212	7934617907761314	CMakeFiles/portaudio.dir/src/common/pa_converters.c.obj	c1bb0e3609a481dd
+48	253	7934617908177853	CMakeFiles/portaudio.dir/src/common/pa_trace.c.obj	1a0d6cd33bd54511
+78	277	7934617908487031	CMakeFiles/portaudio.dir/src/os/win/pa_x86_plain_converters.c.obj	2411ca846cd77d72
+30	283	7934617907997152	CMakeFiles/portaudio.dir/src/common/pa_process.c.obj	76a568bd8004d40c
+51	289	7934617908211962	CMakeFiles/portaudio.dir/src/hostapi/skeleton/pa_hostapi_skeleton.c.obj	dbf1cfe80f0158c
+27	332	7934617907972764	CMakeFiles/portaudio.dir/src/common/pa_front.c.obj	27f647463a1a9e23
+32	363	7934617908027244	CMakeFiles/portaudio.dir/src/common/pa_ringbuffer.c.obj	b65feb9198c30f4a
+64	501	7934617908347772	CMakeFiles/portaudio.dir/src/os/win/pa_win_util.c.obj	dadaa1452497ece6
+69	502	7934617908392861	CMakeFiles/portaudio.dir/src/os/win/pa_win_waveformat.c.obj	edf5d15f3fab7955
+75	522	7934617908452866	CMakeFiles/portaudio.dir/src/os/win/pa_win_coinitialize.c.obj	a0164f97957ab9a6
+180	534	7934617909501828	CMakeFiles/portaudio.dir/src/hostapi/dsound/pa_win_ds_dynlink.c.obj	7781b45f213f6d2c
+72	555	7934617908422872	CMakeFiles/portaudio.dir/src/os/win/pa_win_wdmks_utils.c.obj	eb7f4d35f22c90a6
+172	597	7934617909426621	CMakeFiles/portaudio.dir/src/hostapi/dsound/pa_win_ds.c.obj	a7d890a6293c1743
+185	724	7934617909546971	CMakeFiles/portaudio.dir/src/hostapi/wmme/pa_win_wmme.c.obj	28dc472fd111a138
+194	814	7934617909642173	CMakeFiles/portaudio.dir/src/hostapi/wasapi/pa_win_wasapi.c.obj	452a4ef144a43014
+203	946	7934617909727338	CMakeFiles/portaudio.dir/src/hostapi/wdmks/pa_win_wdmks.c.obj	890589e04c09667c
+946	1077	7934617918293487	portaudio.dll	7e4dd5fdaa702d11
+946	1077	7934617918293487	portaudio.lib	7e4dd5fdaa702d11
+1078	1333	7934617918474858	CMakeFiles/install.util	accc41bc0ff010b7

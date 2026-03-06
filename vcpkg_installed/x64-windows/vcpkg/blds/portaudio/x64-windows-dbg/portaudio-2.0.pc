@@ -1,0 +1,13 @@
+prefix=C:/Users/huykh/source/repos/Test_sorama/vcpkg_installed/x64-windows/vcpkg/pkgs/portaudio_x64-windows/debug
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: PortAudio
+Description: Portable audio I/O
+Requires:
+Requires.private: 
+Version: 19
+
+Libs: -L${libdir} -lportaudio 
+Cflags: -I${includedir} 

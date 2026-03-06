@@ -1,0 +1,8 @@
+Package: mp3lame
+Version: 3.100
+Port-Version: 15
+Depends: vcpkg-msbuild
+Architecture: x64-windows
+Multi-Arch: same
+Abi: c4639eabf1a4eb00a4a31849f67f5deb7f1ea231b27f202ac86f59101a469a13
+Description: LAME is a high quality MPEG Audio Layer III (MP3) encoder licensed under the LGPL.

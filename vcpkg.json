@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+    "curl",
+    "libsndfile",
+    "portaudio",
+    "rapidjson"
+  ]
+}
