@@ -55,22 +55,33 @@ std::vector<float> slowDownAudio(
 
 void player_thread(AudioQueue& audioQueue) {
     Pa_Initialize();
-
     PaStream* stream;
-    Pa_OpenDefaultStream(&stream, INPUT_CHANNELS_COUNT, OUTPUT_CHANNELS_COUNT, paFloat32,
-        SAMPLE_RATE, FRAME_PER_BUFFER, nullptr, nullptr);
+
+    Pa_OpenDefaultStream(
+        &stream,
+        INPUT_CHANNELS_COUNT,
+        OUTPUT_CHANNELS_COUNT,
+        paFloat32,
+        SAMPLE_RATE,
+        FRAME_PER_BUFFER,
+        nullptr,
+        nullptr
+    );
+
     Pa_StartStream(stream);
 
-    std::vector<float> buffer(FRAME_PER_BUFFER);
+    std::vector<float> buffer(FRAME_PER_BUFFER * INPUT_CHANNELS_COUNT);
+
     while (!stop_signal.load()) {
         size_t n = audioQueue.pop(buffer.data(), FRAME_PER_BUFFER);
-        if (n == 0) {
+        if (n == 0) { // no data from audio queue
             std::fill(buffer.begin(), buffer.end(), 0.0f);
         }
-        else if (n < FRAME_PER_BUFFER) {
-            std::fill(buffer.begin() + n, buffer.end(), 0.0f);
-        }
-
+        //else if (n < FRAME_PER_BUFFER) { // less data in audio queue than frame_per_buffer
+        //    std::fill(buffer.begin() + n, buffer.end(), 0.0f);
+        //} 
+        //Pa_WriteStream(stream, slower_audio.data(), FRAME_PER_BUFFER);
+        //continue as normal
         Pa_WriteStream(stream, buffer.data(), FRAME_PER_BUFFER);
     }
 

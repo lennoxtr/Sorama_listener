@@ -113,7 +113,6 @@ std::vector<char> HttpClient::get_audio_file(const std::string& filename)
 
     long http_code = 0;
     curl_easy_getinfo(this->download_curl, CURLINFO_RESPONSE_CODE, &http_code);
-
     return audio_binary;
 }
 

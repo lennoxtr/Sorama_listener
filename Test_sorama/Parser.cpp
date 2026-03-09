@@ -58,17 +58,19 @@ std::string parse_filename_after_record(const std::string& json_str)
 std::vector<float> parse_wav_to_float(const std::vector<char>& audio_binary)
 {
     std::vector<float> float_buffer;
-    if (audio_binary.size() % 2 != 0) {
-        return float_buffer;
-    }
 
-    size_t n_samples = audio_binary.size() / 2;
+    // Each sample is 4 bytes
+    if (audio_binary.size() % 4 != 0)
+        return float_buffer;
+
+    size_t n_samples = audio_binary.size() / 4;
     float_buffer.reserve(n_samples);
 
-    for (size_t i = 0; i < n_samples; ++i) {
-        int16_t sample;
-        std::memcpy(&sample, &audio_binary[i * 2], 2);
-        float_buffer.push_back(static_cast<float>(sample) / 32768.0f);
+    for (size_t i = 0; i < n_samples; ++i)
+    {
+        float sample;
+        std::memcpy(&sample, &audio_binary[i * 4], sizeof(float));
+        float_buffer.push_back(sample); // already in [-1.0f, 1.0f]
     }
 
     return float_buffer;
