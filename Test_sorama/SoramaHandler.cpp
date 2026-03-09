@@ -100,7 +100,6 @@ void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQ
             std::vector<char> audio_binary = client.get_audio_file(recorded_filename);
 
             while (audio_binary.empty()) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
                 audio_binary = client.get_audio_file(recorded_filename);
             }
 
