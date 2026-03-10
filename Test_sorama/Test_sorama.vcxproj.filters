@@ -38,6 +38,9 @@
     <ClInclude Include="FilenameQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AudioQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="http_config.ini" />

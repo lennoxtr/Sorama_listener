@@ -10,6 +10,7 @@ class HttpClient
 		std::string BASE_URL;
 		std::string USERNAME;
 		std::string PWD;
+		int RECORDING_TIME;
 
 		const std::string FILE_PORT = ":9013";
 		const std::string ACTION_PORT = ":9011";
@@ -25,7 +26,7 @@ class HttpClient
 		static size_t RecordAudio_Callback(void* contents, size_t size, size_t nmemb, void* userp);
 
 	public:
-		HttpClient(const std::string& IP, const std::string& username, const std::string& pwd);
+		HttpClient(const std::string& IP, const std::string& username, const std::string& pwd, int recording_time);
 		void check_network();
 
 		// HTTP Related Commands

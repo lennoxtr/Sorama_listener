@@ -47,7 +47,7 @@ std::string HttpClient::post_record_command()
             "properties" : {
                 "type": "Data",
                 "format" : "Wav",
-                "duration" : 1000000000,
+                "duration" :)" + std::to_string(this->RECORDING_TIME) + R"(000000000,
                 "fileName" : "SC2_record"
             },
             "tag": "Leq measurement 1"
@@ -164,12 +164,13 @@ size_t HttpClient::RecordAudio_Callback(void* contents, size_t size, size_t nmem
 
 }
 
-HttpClient::HttpClient(const std::string& IP, const std::string& username, const std::string& pwd)
+HttpClient::HttpClient(const std::string& IP, const std::string& username, const std::string& pwd, int recording_time)
 {   
     this->BASE_IP = IP;
-    this->BASE_URL = "http://" + IP;
+    this->BASE_URL = "http://" + IP;   
     this->USERNAME = username;
     this->PWD = pwd;
+    this->RECORDING_TIME = recording_time;
 
     this->check_network();
 
