@@ -126,11 +126,13 @@ void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQ
                 audio_queue.push(samples.data() + pushed, chunk);
                 pushed += chunk;
             }
+            
             if (!previous_filename.empty()) 
             {
                 delete_queue.push(previous_filename);
             }
             previous_filename = recorded_filename;
+            
         }
         else {
             continue;
@@ -164,7 +166,7 @@ void cleaner_thread(HttpClient& client, FilenameQueue& delete_queue)
     {
         std::string delete_filename = delete_queue.pop();
         int result = client.delete_audio_file(delete_filename);
-        std::this_thread::sleep_for(std::chrono::seconds(2));
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
 
@@ -183,6 +185,13 @@ int main()
     OUTPUT_CHANNELS_COUNT = std::stoi(parse_ini_value(HTTP_INI_FILE, "Sorama", "Output_channel_count"));
     INPUT_CHANNELS_COUNT = std::stoi(parse_ini_value(HTTP_INI_FILE, "Sorama", "Input_channel_count"));
     SAMPLE_RATE = std::stoi(parse_ini_value(HTTP_INI_FILE, "Sorama", "Sample_rate"));
+
+    AudioQueue audio_queue = AudioQueue(SAMPLE_RATE * 100);
+
+    std::cout << "Recording time: " << RECORDING_TIME << std::endl;
+    std::cout << "Output Channel Count: " << OUTPUT_CHANNELS_COUNT << std::endl;
+    std::cout << "Input Channel Count: " << INPUT_CHANNELS_COUNT << std::endl;
+    std::cout << "Sample rate: " << SAMPLE_RATE << std::endl;
 
     HttpClient http_client = HttpClient(SORAMA_IP, SORAMA_USERNAME, SORAMA_PWD, RECORDING_TIME);
     std::vector<std::string> filename_list = http_client.get_file_info();
@@ -208,13 +217,13 @@ int main()
         std::ref(audio_queue),
         std::ref(delete_queue));
 
-
+    
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
     std::thread cleaner(cleaner_thread,
         std::ref(http_client),
         std::ref(delete_queue));
-
+    
     player.join();
     recorder.join();
     downloader.join();

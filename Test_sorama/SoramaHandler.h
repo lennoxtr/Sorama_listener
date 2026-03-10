@@ -19,7 +19,6 @@ std::string previous_filename = "";
 
 FilenameQueue filename_queue = FilenameQueue();
 FilenameQueue delete_queue = FilenameQueue();
-AudioQueue audio_queue = AudioQueue(SAMPLE_RATE * 100);
 
 std::atomic<bool> stop_signal(false);
 
