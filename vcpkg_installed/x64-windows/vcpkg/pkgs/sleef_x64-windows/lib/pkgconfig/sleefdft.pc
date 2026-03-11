@@ -1,0 +1,13 @@
+prefix=${pcfiledir}/../..
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: SLEEFDFT
+Description: SIMD Library for Evaluating Elementary Functions, vectorized libm and DFT
+Version: 3.9.0
+Cflags: "-I${includedir}"
+Cflags.private:  -openmp
+Libs: "-L${libdir}" -lsleefdft
+Libs.private: 
+Requires.private: sleef
+

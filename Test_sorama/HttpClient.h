@@ -21,6 +21,7 @@ class HttpClient
 
 		CURL* recorder_curl;
 		CURL* download_curl;
+		CURL* delete_curl;
 
 		static size_t Fileinfo_Callback(void* contents, size_t size, size_t nmemb, void* userp);
 		static size_t RecordAudio_Callback(void* contents, size_t size, size_t nmemb, void* userp);
@@ -31,8 +32,8 @@ class HttpClient
 
 		// HTTP Related Commands
 		std::vector<std::string> get_file_info();
-		std::string post_record_command();
-		std::vector<char> get_audio_file(const std::string& filename);
-		int delete_audio_file(const std::string& filename);
+		long post_record_command(std::string& recorded_filename);
+		long get_audio_file(const std::string& filename, std::vector<char>& audio_binary);
+		long delete_audio_file(const std::string& filename);
 };
 

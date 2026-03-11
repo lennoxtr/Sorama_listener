@@ -1,0 +1,5 @@
+if("@COMPILER_SUPPORTS_OPENMP@")
+    include(CMakeFindDependencyMacro)
+    find_dependency(OpenMP)
+endif()
+include("${CMAKE_CURRENT_LIST_DIR}/sleefTargets.cmake")

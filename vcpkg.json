@@ -3,6 +3,7 @@
     "curl",
     "libsndfile",
     "portaudio",
-    "rapidjson"
+    "rapidjson",
+    "rubberband"
   ]
 }

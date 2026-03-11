@@ -1,0 +1,8 @@
+Package: rubberband
+Version: 4.0.0
+Port-Version: 1
+Depends: libsamplerate, sleef, vcpkg-tool-meson
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 3e3320898cdb2b73d6b09a5052d3a7033bc253476f07432841ac1aac155ad2d0
+Description: A high quality software library for audio time-stretching and pitch-shifting.

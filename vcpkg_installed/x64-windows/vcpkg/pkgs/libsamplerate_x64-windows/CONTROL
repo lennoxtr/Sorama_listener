@@ -1,0 +1,8 @@
+Package: libsamplerate
+Version: 0.2.2
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 13ecf085bf9028a092b393d3136f2087f4a44937e8e807bee33c2bbbfd79d3d9
+Description: Sample Rate Converter for audio

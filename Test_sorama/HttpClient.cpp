@@ -29,10 +29,8 @@ std::vector<std::string> HttpClient::get_file_info()
     return filename_list;
 }
 
-std::string HttpClient::post_record_command()
+long HttpClient::post_record_command(std::string& recorded_filename)
 {   
-    std::string recorded_filename;
-
     std::string url =
         this->BASE_URL +
         this->ACTION_PORT +
@@ -73,12 +71,11 @@ std::string HttpClient::post_record_command()
     if (res != CURLE_OK)
     {
         std::cout << "curl failed during POST: " << curl_easy_strerror(res) << std::endl;
-        return recorded_filename;
+        return -1;
     }
-
+    
     long http_code = 0;
     curl_easy_getinfo(this->recorder_curl, CURLINFO_RESPONSE_CODE, &http_code);
-    
     if (http_code == 200)
     {
         recorded_filename = parse_filename_after_record(response);
@@ -86,12 +83,11 @@ std::string HttpClient::post_record_command()
     curl_slist_free_all(headers);
     curl_easy_setopt(this->recorder_curl, CURLOPT_POST, 0L);
 
-    return recorded_filename;
+    return http_code;
 }
 
-std::vector<char> HttpClient::get_audio_file(const std::string& filename)
+long HttpClient::get_audio_file(const std::string& filename, std::vector<char>& audio_binary)
 {   
-    std::vector<char> audio_binary;
     std::string url = this->BASE_URL 
                     + this->FILE_PORT
                     + this->DOWNLOAD_ENDPOINT
@@ -108,16 +104,15 @@ std::vector<char> HttpClient::get_audio_file(const std::string& filename)
     if (res != CURLE_OK)
     {
         std::cout << "curl failed during GET: " << curl_easy_strerror(res) << std::endl;
-        return audio_binary;
+        return -1;
     }
 
     long http_code = 0;
     curl_easy_getinfo(this->download_curl, CURLINFO_RESPONSE_CODE, &http_code);
-
-    return audio_binary;
+    return http_code;
 }
 
-int HttpClient::delete_audio_file(const std::string& filename)
+long HttpClient::delete_audio_file(const std::string& filename)
 {
     std::string url =
         this->BASE_URL +
@@ -125,10 +120,10 @@ int HttpClient::delete_audio_file(const std::string& filename)
         this->DELETE_ENDPOINT +
         "?path=" + filename;
 
-    curl_easy_setopt(this->download_curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(this->download_curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+    curl_easy_setopt(this->delete_curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(this->delete_curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 
-    CURLcode res = curl_easy_perform(this->download_curl);
+    CURLcode res = curl_easy_perform(this->delete_curl);
 
     if (res != CURLE_OK)
     {
@@ -137,8 +132,10 @@ int HttpClient::delete_audio_file(const std::string& filename)
         return -1;
     }
 
-    curl_easy_setopt(this->download_curl, CURLOPT_CUSTOMREQUEST, NULL);
-    return 0;
+    curl_easy_setopt(this->delete_curl, CURLOPT_CUSTOMREQUEST, NULL);
+    long http_code = 0;
+    curl_easy_getinfo(this->download_curl, CURLINFO_RESPONSE_CODE, &http_code);
+    return http_code;
 }
 
 size_t HttpClient::Fileinfo_Callback(void* contents, size_t size, size_t nmemb, void* userp)
@@ -177,12 +174,16 @@ HttpClient::HttpClient(const std::string& IP, const std::string& username, const
     curl_global_init(CURL_GLOBAL_DEFAULT);
     this->recorder_curl = curl_easy_init();
     this->download_curl = curl_easy_init();
+    this->delete_curl = curl_easy_init();
 
     curl_easy_setopt(this->recorder_curl, CURLOPT_USERNAME, username.c_str());
     curl_easy_setopt(this->recorder_curl, CURLOPT_PASSWORD, pwd.c_str());
 
     curl_easy_setopt(this->download_curl, CURLOPT_USERNAME, username.c_str());
     curl_easy_setopt(this->download_curl, CURLOPT_PASSWORD, pwd.c_str());
+
+    curl_easy_setopt(this->delete_curl, CURLOPT_USERNAME, username.c_str());
+    curl_easy_setopt(this->delete_curl, CURLOPT_PASSWORD, pwd.c_str());
 
 }
 

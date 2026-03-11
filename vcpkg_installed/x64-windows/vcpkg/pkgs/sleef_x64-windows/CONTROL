@@ -1,0 +1,14 @@
+Package: sleef
+Version: 3.9.0
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: cb6ee581faf538932c4e46001358a25759b08fc15fd5ac9063355369f0538367
+Description: SIMD Library for Evaluating Elementary Functions, vectorized libm and DFT
+
+Package: sleef
+Feature: dft
+Architecture: x64-windows
+Multi-Arch: same
+Description: Build the DFT library. Needs OpenMP.
