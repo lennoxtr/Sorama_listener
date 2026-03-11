@@ -32,6 +32,7 @@ FilenameQueue delete_queue = FilenameQueue();
 std::atomic<bool> stop_signal(false);
 void signal_handler(int signal);
 
+// Clen old files
 void clean_old_files(const std::vector<std::string>& filename_list, HttpClient& client);
 
 // Threads

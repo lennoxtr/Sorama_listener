@@ -146,27 +146,27 @@ void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQ
 
             int retry_count = 0;
             long http_code = client.get_audio_file(recorded_filename, audio_binary);
-
-            while (http_code == 404 && retry_count < 20) {
+            
+            while (http_code == 404 && retry_count < 5) {
                 long http_code = client.get_audio_file(recorded_filename, audio_binary);
                 retry_count += 1;
-                std::this_thread::sleep_for(std::chrono::milliseconds(400));
+                std::this_thread::sleep_for(std::chrono::milliseconds(300 * RECORDING_TIME));
             }
-
+            
             if (http_code == 404)
             {   
-                std::cout << "Not on sorama" << std::endl;
+                //std::cout << "Not on sorama" << std::endl;
                 continue;
             }
 
-            std::cout << recorded_filename << " retrieved" << std::endl;
+            //std::cout << recorded_filename << " retrieved" << std::endl;
 
             retry_count = 0;
             while (audio_binary.size() < 100000 && retry_count < 12) 
             {
                 http_code = client.get_audio_file(recorded_filename, audio_binary);
                 retry_count += 1;
-                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                std::this_thread::sleep_for(std::chrono::milliseconds(400));
             }
 
             std::vector<char> audio_data(audio_binary.begin() + 44, audio_binary.end());
@@ -223,7 +223,7 @@ void recorder_thread(HttpClient& client, FilenameQueue& filename_queue)
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         std::this_thread::sleep_for(std::chrono::seconds(RECORDING_TIME));
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
     }
 }
 
@@ -236,7 +236,6 @@ void cleaner_thread(HttpClient& client, FilenameQueue& delete_queue)
         client.delete_audio_file(delete_filename);
     }
 }
-
 
 int main()
 {   
