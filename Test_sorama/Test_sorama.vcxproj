@@ -121,7 +121,9 @@
     <PostBuildEvent>
       <Command>xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\curl\x64-windows-dbg\lib\libcurl-d.dll" "$(OutDir)" /Y
 xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\portaudio\x64-windows-dbg\portaudio.dll" "$(OutDir)" /Y
-xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\zlib\x64-windows-dbg\zlibd1.dll" "$(OutDir)" /Y</Command>
+xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\zlib\x64-windows-dbg\zlibd1.dll" "$(OutDir)" /Y
+xcopy "$(ProjectDir)http_config.ini" "$(SolutionDir)$(LibrariesArchitecture)\config" /Y
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,9 +144,10 @@ xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\zlib\x64-windows-dbg\zlibd1.dll
       <AdditionalDependencies>libcurl.lib;portaudio.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\curl\x64-windows-rel\lib\libcurl.dll" "$(OutDir)"
-xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\portaudio\x64-windows-rel\portaudio.dll" "$(OutDir)"
-xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\zlib\x64-windows-rel\zlib1.dll" "$(OutDir)"</Command>
+      <Command>xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\curl\x64-windows-rel\lib\libcurl.dll" "$(OutDir)" /Y
+xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\portaudio\x64-windows-rel\portaudio.dll" "$(OutDir)" /Y
+xcopy "..\vcpkg_installed\x64-windows\vcpkg\blds\zlib\x64-windows-rel\zlib1.dll" "$(OutDir)" /Y
+xcopy "$(ProjectDir)http_config.ini" "$(SolutionDir)$(LibrariesArchitecture)\config" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
