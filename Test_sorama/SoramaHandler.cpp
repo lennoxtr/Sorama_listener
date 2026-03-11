@@ -147,10 +147,10 @@ void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQ
             int retry_count = 0;
             long http_code = client.get_audio_file(recorded_filename, audio_binary);
 
-            while (http_code == 404 && retry_count < 12) {
+            while (http_code == 404 && retry_count < 20) {
                 long http_code = client.get_audio_file(recorded_filename, audio_binary);
                 retry_count += 1;
-                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                std::this_thread::sleep_for(std::chrono::milliseconds(400));
             }
 
             if (http_code == 404)
@@ -160,14 +160,11 @@ void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQ
             }
 
             std::cout << recorded_filename << " retrieved" << std::endl;
-            //std::cout << "Filesize: " << audio_binary.size() << std::endl;
 
             retry_count = 0;
             while (audio_binary.size() < 100000 && retry_count < 12) 
             {
                 http_code = client.get_audio_file(recorded_filename, audio_binary);
-                //std::cout << "File name: " << recorded_filename << std::endl;
-                //std::cout << "Audio size: " << audio_binary.size() << std::endl;
                 retry_count += 1;
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
             }
@@ -178,14 +175,12 @@ void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQ
             std::vector<float> samples = parse_wav_to_float(audio_binary);
             std::vector<float> slowedSamples;
             if (samples.empty() || samples.size() < 256) {
-                //std::cout << "Skipping too-small file: " << recorded_filename << std::endl;
                 slowedSamples = samples;
             }
             else
             {
                 slowedSamples = slowDownAudio(samples);
             }
-
 
             size_t pushed = 0;
             while (pushed < slowedSamples.size()) 
@@ -206,7 +201,6 @@ void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQ
         }
         else {
             continue;
-            //std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
 }
@@ -222,7 +216,6 @@ void recorder_thread(HttpClient& client, FilenameQueue& filename_queue)
         long http_code = client.post_record_command(recorded_filename);
         if (!recorded_filename.empty()) 
         {   
-            //std::cout << "Pushing " << recorded_filename << std::endl;
             filename_queue.push(recorded_filename);
         }
         else 
@@ -230,6 +223,7 @@ void recorder_thread(HttpClient& client, FilenameQueue& filename_queue)
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         std::this_thread::sleep_for(std::chrono::seconds(RECORDING_TIME));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }
 
@@ -240,7 +234,6 @@ void cleaner_thread(HttpClient& client, FilenameQueue& delete_queue)
     {
         std::string delete_filename = delete_queue.pop();
         client.delete_audio_file(delete_filename);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
 
@@ -298,15 +291,16 @@ int main()
     
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-    /*
+    
     std::thread cleaner(cleaner_thread,
         std::ref(http_client),
         std::ref(delete_queue));
-    */
+    
 
     // Join threads
     player.join();
     recorder.join();
     downloader.join();
-    //cleaner.join();
+    cleaner.join();
+    return 0;
 }
