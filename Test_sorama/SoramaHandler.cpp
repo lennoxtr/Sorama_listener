@@ -12,47 +12,43 @@
 #include <csignal>
 #include <rubberband/RubberBandStretcher.h>
 
+using RubberBandStretcher = RubberBand::RubberBandStretcher;
+
 void signal_handler(int signal) {
     if (signal == SIGINT) {
         stop_signal.store(true);
+        filename_queue.stop();
+        delete_queue.stop();
+        
         std::cout << "\n Stopping...\n";
     }
 }
 
-void clean_old_files(const std::vector<std::string>& filename_list, HttpClient& client)
+void clean_old_files(HttpClient& client)
 {
-    std::cout << "Cleaning old files" << std::endl;
+    std::cout << "Cleaning Old Files..." << std::endl;
+    std::vector<std::string> filename_list = client.get_file_info();
     for (size_t i = 0; i < filename_list.size(); i++) 
     {
         client.delete_audio_file(filename_list[i]);
     }
+    std::cout << "Finish Cleaning Old Files" << std::endl;
 }
 
-std::vector<float> slowDownAudio(const std::vector<float>& in)
+std::vector<float> slowDownAudio(const std::vector<float>& in, RubberBandStretcher& stretcher)
 {
     if (in.empty()) return {};
 
-    std::vector<float> sanitized = in;
-    for (auto& s : sanitized) {
-        if (std::isnan(s) || std::isinf(s)) s = 0.0f;
-    }
-
     size_t frames = in.size() / OUTPUT_CHANNELS_COUNT;
-
-    RubberBand::RubberBandStretcher stretcher(
-        SAMPLE_RATE,
-        OUTPUT_CHANNELS_COUNT,
-        RubberBand::RubberBandStretcher::OptionProcessRealTime
-    );
-
-    stretcher.setTimeRatio(SLOW_RATIO);
 
     const float* inPtr[1] = { in.data() };
 
-    stretcher.process(inPtr, frames, true);
+  
+    stretcher.setTimeRatio(SLOW_RATIO);
+    stretcher.process(inPtr, frames, false);
 
     std::vector<float> output;
-    output.reserve(in.size() * SLOW_RATIO);
+    output.reserve(static_cast<size_t>(std::ceil(in.size() * SLOW_RATIO)));
 
     std::vector<float> outputBuffer(FRAME_PER_BUFFER * OUTPUT_CHANNELS_COUNT);
     float* outPtr[1] = { outputBuffer.data() };
@@ -132,7 +128,11 @@ void player_thread(AudioQueue& audioQueue) {
 }
 
 
-void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQueue& audio_queue, FilenameQueue& delete_queue)
+void downloader_thread(HttpClient& client,
+                        FilenameQueue& filename_queue,
+                        AudioQueue& audio_queue,
+                        FilenameQueue& delete_queue,
+                        RubberBandStretcher& stretcher)
 {   
     std::cout << "Downloader thread starts" << std::endl;
 
@@ -140,68 +140,61 @@ void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQ
     {
         std::string recorded_filename = filename_queue.pop();
         std::cout << "Checking " << recorded_filename << std::endl;
-        if (!recorded_filename.empty()) 
-        {
-            std::vector<char> audio_binary;
 
-            int retry_count = 0;
+        std::vector<char> audio_binary;
+
+        int retry_count = 0;
+        long http_code = client.get_audio_file(recorded_filename, audio_binary);
+            
+        while (http_code == 404 && retry_count < MAX_RETRIES) {
             long http_code = client.get_audio_file(recorded_filename, audio_binary);
-            
-            while (http_code == 404 && retry_count < 5) {
-                long http_code = client.get_audio_file(recorded_filename, audio_binary);
-                retry_count += 1;
-                std::this_thread::sleep_for(std::chrono::milliseconds(300 * RECORDING_TIME));
-            }
-            
-            if (http_code == 404)
-            {   
-                //std::cout << "Not on sorama" << std::endl;
-                continue;
-            }
-
-            //std::cout << recorded_filename << " retrieved" << std::endl;
-
-            retry_count = 0;
-            while (audio_binary.size() < 100000 && retry_count < 12) 
-            {
-                http_code = client.get_audio_file(recorded_filename, audio_binary);
-                retry_count += 1;
-                std::this_thread::sleep_for(std::chrono::milliseconds(400));
-            }
-
-            std::vector<char> audio_data(audio_binary.begin() + 44, audio_binary.end());
-            audio_binary.swap(audio_data);
-
-            std::vector<float> samples = parse_wav_to_float(audio_binary);
-            std::vector<float> slowedSamples;
-            if (samples.empty() || samples.size() < 256) {
-                slowedSamples = samples;
-            }
-            else
-            {
-                slowedSamples = slowDownAudio(samples);
-            }
-
-            size_t pushed = 0;
-            while (pushed < slowedSamples.size()) 
-            {
-                size_t remaining = slowedSamples.size() - pushed;
-                size_t chunk = (FRAME_PER_BUFFER < remaining) ? FRAME_PER_BUFFER : remaining;
-
-                audio_queue.push(slowedSamples.data() + pushed, chunk);
-                pushed += chunk;
-            }
-            
-            if (!previous_filename.empty()) 
-            {
-                delete_queue.push(previous_filename);
-            }
-            previous_filename = recorded_filename;
-            
+            retry_count += 1;
+            std::this_thread::sleep_for(std::chrono::milliseconds(BUFFER_DOWNLOADING_TIME * RECORDING_TIME));
         }
-        else {
+            
+        if (http_code == 404)
+        {   
+            std::cout << "Not on sorama" << std::endl;
             continue;
         }
+
+        //std::cout << recorded_filename << " retrieved" << std::endl;
+
+        retry_count = 0;
+        while (audio_binary.size() < 100000 && retry_count < MAX_RETRIES) 
+        {
+            http_code = client.get_audio_file(recorded_filename, audio_binary);
+            retry_count += 1;
+            std::this_thread::sleep_for(std::chrono::milliseconds(BUFFER_DOWNLOADING_TIME));
+        }
+
+        std::vector<char> audio_data(audio_binary.begin() + 84, audio_binary.end());
+        audio_binary.swap(audio_data);
+
+        std::vector<float> samples = parse_wav_to_float(audio_binary);
+        std::vector<float> slowedSamples;
+        if (samples.empty() || samples.size() < 256) {
+            slowedSamples = samples;
+        } else
+        {
+            slowedSamples = slowDownAudio(samples, stretcher);
+        }
+
+        size_t pushed = 0;
+        while (pushed < slowedSamples.size()) 
+        {
+            size_t remaining = slowedSamples.size() - pushed;
+            size_t chunk = (FRAME_PER_BUFFER < remaining) ? FRAME_PER_BUFFER : remaining;
+
+            audio_queue.push(slowedSamples.data() + pushed, chunk);
+            pushed += chunk;
+        }
+            
+        if (!previous_filename.empty()) 
+        {
+            delete_queue.push(previous_filename);
+        }
+        previous_filename = recorded_filename;
     }
 }
 
@@ -223,7 +216,7 @@ void recorder_thread(HttpClient& client, FilenameQueue& filename_queue)
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         std::this_thread::sleep_for(std::chrono::seconds(RECORDING_TIME));
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        std::this_thread::sleep_for(std::chrono::milliseconds(BUFFER_RECORDING_TIME));
     }
 }
 
@@ -255,45 +248,54 @@ int main()
         SAMPLE_RATE = std::stoi(parse_ini_value(HTTP_INI_FILE, "Sorama", "Sample_rate"));
         AUDIO_GAIN = std::stof(parse_ini_value(HTTP_INI_FILE, "Sorama", "Audio_gain"));
         SLOW_RATIO = std::stof(parse_ini_value(HTTP_INI_FILE, "Sorama", "Slow_ratio"));
+        BUFFER_RECORDING_TIME = std::stoi(parse_ini_value(HTTP_INI_FILE, "Sorama", "Buffer_recording_time"));
+        BUFFER_DOWNLOADING_TIME = std::stoi(parse_ini_value(HTTP_INI_FILE, "Sorama", "Buffer_downloading_time"));
+        MAX_RETRIES = std::stoi(parse_ini_value(HTTP_INI_FILE, "Sorama", "Max_retries_per_download"));
     } catch (...)
     {
         std::cout << "Failed to parse ini file" << std::endl;
         return -1;
     }
 
-    AudioQueue audio_queue = AudioQueue(SAMPLE_RATE * 100);
 
     HttpClient http_client = HttpClient(SORAMA_IP, SORAMA_USERNAME, SORAMA_PWD, RECORDING_TIME);
-    std::vector<std::string> filename_list = http_client.get_file_info();
 
-    clean_old_files(filename_list, http_client);
+    AudioQueue audio_queue = AudioQueue(SAMPLE_RATE * 100);
 
-    std::cout << "Finish Cleaning" << std::endl;
+    RubberBandStretcher stretcher(
+        SAMPLE_RATE,
+        OUTPUT_CHANNELS_COUNT,
+        RubberBandStretcher::OptionProcessRealTime
+    );
+    
+    // Clean remaining files if any
+    clean_old_files(http_client);
 
     // Start threads
     std::thread recorder(recorder_thread,
-        std::ref(http_client),
-        std::ref(filename_queue));
+                            std::ref(http_client),
+                            std::ref(filename_queue));
 
     std::thread player(player_thread,
-        std::ref(audio_queue));
+                        std::ref(audio_queue));
     
     
-    std::this_thread::sleep_for(std::chrono::seconds(6));
+    std::this_thread::sleep_for(std::chrono::seconds(7));
 
     std::thread downloader(downloader_thread,
-        std::ref(http_client),
-        std::ref(filename_queue),
-        std::ref(audio_queue),
-        std::ref(delete_queue));
+                            std::ref(http_client),
+                            std::ref(filename_queue),
+                            std::ref(audio_queue),
+                            std::ref(delete_queue),
+                            std::ref(stretcher));
 
     
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
     
     std::thread cleaner(cleaner_thread,
-        std::ref(http_client),
-        std::ref(delete_queue));
+                            std::ref(http_client),
+                            std::ref(delete_queue));
     
 
     // Join threads

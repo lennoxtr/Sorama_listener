@@ -59,6 +59,7 @@ std::vector<float> parse_wav_to_float(const std::vector<char>& audio_binary)
 {
     size_t n_samples = audio_binary.size() / 4;
     std::vector<float> float_buffer(n_samples);
+    
     std::memcpy(float_buffer.data(), audio_binary.data(), n_samples * sizeof(float));
     return float_buffer;
 }

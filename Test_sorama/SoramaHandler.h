@@ -1,9 +1,17 @@
 #pragma once
-#include <queue>
-#include <string>
+#include <iostream>
+#include <curl/curl.h>
+#include <sndfile.h>
+#include <portaudio.h>
+#include "SoramaHandler.h"
 #include "HttpClient.h"
+#include "Parser.h"
+#include <thread>
+#include <chrono>
 #include "FilenameQueue.h"
 #include "AudioQueue.h"
+#include <csignal>
+#include <rubberband/RubberBandStretcher.h>
 
 const std::string HTTP_INI_FILE = "..\\config\\http_config.ini";
 
@@ -21,7 +29,12 @@ int OUTPUT_CHANNELS_COUNT;
 float AUDIO_GAIN;
 float SLOW_RATIO;
 
-const int FRAME_PER_BUFFER = 1024;
+// Download config
+int MAX_RETRIES;
+int BUFFER_RECORDING_TIME;
+int BUFFER_DOWNLOADING_TIME;
+
+const int FRAME_PER_BUFFER = 4096;
 
 std::string previous_filename = "";
 
@@ -32,10 +45,17 @@ FilenameQueue delete_queue = FilenameQueue();
 std::atomic<bool> stop_signal(false);
 void signal_handler(int signal);
 
-// Clen old files
-void clean_old_files(const std::vector<std::string>& filename_list, HttpClient& client);
+// Clean old files
+void clean_old_files(HttpClient& client);
+
+// Slow down audio
+std::vector<float> slowDownAudio(const std::vector<float>& in, RubberBand::RubberBandStretcher& stretcher);
 
 // Threads
 void recorder_thread(HttpClient& client, FilenameQueue& filename_queue);
-void downloader_thread(HttpClient& client, FilenameQueue& filename_queue, AudioQueue& audioQueue, FilenameQueue& delete_queue);
+void downloader_thread(HttpClient& client,
+						FilenameQueue& filename_queue,
+						AudioQueue& audioQueue,
+						FilenameQueue& delete_queue,
+						RubberBand::RubberBandStretcher& stretcher);
 void player_thread(AudioQueue& audioQueue);
